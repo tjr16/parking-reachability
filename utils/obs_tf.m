@@ -13,7 +13,6 @@ if PLOT_PARKING_SPOT
         patch(obsx,obsy,'black');
     end
 
-    % Jiarui: parking_spots should be a yamlFile. I think I understand.
     fn = fieldnames(parking_spots);
     for j = 1:length(fn)
         obstacles = parking_spots.(fn{j});
