@@ -53,6 +53,12 @@ for i = 1:nTask
 end
 nTask = numel(ps);
 
+%% Save info
+xSpot = {};
+ySpot = {};
+yawReach ={};
+typeSpot = {};
+
 %% Reachability
 for i = 1:nTask
     % each time we process one task if it's feasible
@@ -68,8 +74,11 @@ for i = 1:nTask
         % SWIDTH, SDEPTH: parking spot's size
         SWIDTH = spot_dim{i}.width; SDEPTH = spot_dim{i}.depth;
         run('parking_param.m');
-        
         run('parking_reachability');
+        xSpot{end+1} = SX;
+        ySpot{end+1} = SY;
+        yawReach{end+1} = SZ;
+        typeSpot{end+1} = MODE;
     end
 end
 
@@ -79,3 +88,10 @@ timeStr = string(datetime('now'));
 saveStr = sprintf('fullMap %s.fig', erase(timeStr, ':'));
 savefig(saveStr);
 openfig(saveStr);
+
+%% Print info
+for i = 1:numel(xSpot)
+    fprintf("%s parking spot (%f, %f) \n", typeSpot{i}, xSpot{i}, ySpot{i});
+    fprintf("corresponding yaw angle: %f \n", yawReach{i}); 
+end
+
