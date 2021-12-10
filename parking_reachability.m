@@ -86,7 +86,7 @@ end
 
 % max_velocity = 1; % m/s
 max_acc = 1;
-max_steering = pi/4; % radians
+max_steering = pi/6; % radians: 30 deg in path planner
 
 vel_x_disturb = 0.01; % m/s
 vel_y_disturb = 0.01; % m/s
