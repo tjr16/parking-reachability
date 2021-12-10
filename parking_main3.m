@@ -95,7 +95,14 @@ savefig(saveStr);
 
 %% Print info
 for i = 1:numel(xSpot)
-    fprintf("%s parking spot (%f, %f) \n", typeSpot{i}, xSpot{i}, ySpot{i});
-    fprintf("corresponding yaw angle: %f \n", yawReach{i}); 
+    fprintf("%s parking spot located at (%f, %f) \n", typeSpot{i}, xSpot{i}, ySpot{i});
+    yawR = yawReach{i};
+    while yawR > pi
+        yawR = yawR - 2*pi;
+    end
+    while yawR < -pi
+        yawR = yawR + 2*pi;
+    end
+    fprintf("\t corresponding yaw angle: %f (pick your (x,y) by yourself!) \n", yawR); 
 end
 
