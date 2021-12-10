@@ -81,8 +81,13 @@ elseif strcmp(MODE, 'parallel') || strcmp(MODE, 'parallel-anti')
     else
         SZ = CZ + pi/2;
     end
-    SX = CX + (0.1+SDEPTH/2) * cos(CZ) - WHEELBASE/2 * cos(SZ);
-    SY = CY + (0.1+SDEPTH/2) * sin(CZ) - WHEELBASE/2 * sin(SZ);
+%     SX = CX + (0.1+SDEPTH/2) * cos(CZ) - WHEELBASE/2 * cos(SZ);
+%     SY = CY + (0.1+SDEPTH/2) * sin(CZ) - WHEELBASE/2 * sin(SZ);
+
+    % Now it is + instead of - because we simulate forward parking
+    % but finally we go backward
+    SX = CX + (0.1+SDEPTH/2) * cos(CZ) + WHEELBASE/2 * cos(SZ);
+    SY = CY + (0.1+SDEPTH/2) * sin(CZ) + WHEELBASE/2 * sin(SZ);
 
     GRID_MIN = [SX-2; SY-2; -pi; -1]; % Lower corner of computation domain
     GRID_MAX = [SX+2; SY+2; pi; 1];

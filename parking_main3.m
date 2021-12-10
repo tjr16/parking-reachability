@@ -77,7 +77,11 @@ for i = 1:nTask
         run('parking_reachability');
         xSpot{end+1} = SX;
         ySpot{end+1} = SY;
-        yawReach{end+1} = SZ;
+        if strcmp(MODE, 'forward')
+            yawReach{end+1} = SZ;
+        else
+            yawReach{end+1} = revSZ;  % real 'SZ' for reverse/parallel
+        end
         typeSpot{end+1} = MODE;
     end
 end
@@ -87,7 +91,7 @@ end
 timeStr = string(datetime('now'));
 saveStr = sprintf('fullMap %s.fig', erase(timeStr, ':'));
 savefig(saveStr);
-openfig(saveStr);
+% openfig(saveStr);
 
 %% Print info
 for i = 1:numel(xSpot)

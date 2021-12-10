@@ -187,7 +187,7 @@ end
 %% patch: vehicle rectangle
 lLarge = (LENGTH+WHEELBASE)/2;
 lSmall = (LENGTH-WHEELBASE)/2;
-if ~strcmp(MODE, 'reverse')
+if strcmp(MODE, 'forward')  % forward, parallel
     SZ1 = SZ - pi/2;
     SZ2 = SZ + pi/2;
     vX = [SX + lLarge * cos(SZ) + WIDTH/2 * cos(SZ1), ...
@@ -199,8 +199,9 @@ if ~strcmp(MODE, 'reverse')
         SY + lLarge * sin(SZ) + WIDTH/2 * sin(SZ2), ...
         SY - lSmall * sin(SZ) + WIDTH/2 * sin(SZ1), ...
         SY - lSmall * sin(SZ) + WIDTH/2 * sin(SZ2)];
-else
-    revSZ = SZ + pi;
+else  % parallel or reverse
+    % Because we do forward parking to simulate these cases.
+    revSZ = SZ + pi;  % This is true 'SZ'
     revSZ1 = revSZ - pi/2;
     revSZ2 = revSZ + pi/2;
     vX = [SX + lLarge * cos(revSZ) + WIDTH/2 * cos(revSZ1), ...
