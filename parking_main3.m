@@ -90,12 +90,15 @@ end
 % save a figure; then read it again (make a copy)
 timeStr = string(datetime('now'));
 saveStr = sprintf('fullMap %s.fig', erase(timeStr, ':'));
+fileStr = sprintf('data %s.txt', erase(timeStr, ':'));
 savefig(saveStr);
 % openfig(saveStr);
 
-%% Print info
+%% Print info and write info into file
+fid = fopen(fileStr, 'w');
 for i = 1:numel(xSpot)
     fprintf("%s parking spot located at (%f, %f) \n", typeSpot{i}, xSpot{i}, ySpot{i});
+    fprintf(fid, "%s parking spot located at (%f, %f) \n", typeSpot{i}, xSpot{i}, ySpot{i});
     yawR = yawReach{i};
     while yawR > pi
         yawR = yawR - 2*pi;
@@ -104,5 +107,6 @@ for i = 1:numel(xSpot)
         yawR = yawR + 2*pi;
     end
     fprintf("\t corresponding yaw angle: %f (pick your (x,y) by yourself!) \n", yawR); 
+    fprintf(fid, "\t corresponding yaw angle: %f (pick your (x,y) by yourself!) \n", yawR); 
 end
-
+fclose(fid);
