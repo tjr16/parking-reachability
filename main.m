@@ -1,9 +1,5 @@
-%% ======= Declaration =======
-% This is the 3rd version of the main script.
-% 1) yaml file reading
-% 2) feasibility check
-% 3) reachability analysis
-% ==============================
+
+%% Main script
 
 %% Preparation
 clear
@@ -21,25 +17,12 @@ map_obst = ReadYaml(mapPath);
 run('obs_tf.m');  
 % NOTE: return ps, type, marker, spot_dim
 % ps: each element is a parking spot, including several obstacles.
-%   Get a spot:
-%   >> ps{1}f
-%   Get an obs: (size: 2 x n)
-%   >> ps{1}{1}
-% type: 
-%   >> type{1}
-% marker: each element is a struct {x, y, yaw}
-%   >> marker{1}.x
-% spot_dim: struct{width, depth}
-%   >> spot_dim{1}.width
-% allPs = cat(2, ps{:});
 
 %% Feasibility
 [possible_task, possible_task_idx] = ...
     feasibilityTest(parking_spots, LENGTH, WIDTH);
 
-% possible_type = type{possible_task_idx};
-
-%% Add more tasks for parallel cases
+%% Add another case for parallel parking
 nTask = numel(ps);  % #tasks
 for i = 1:nTask
     if type{i} == "parallel"
@@ -53,13 +36,11 @@ for i = 1:nTask
 end
 nTask = numel(ps);
 
-%% Save info
-xSpot = {};
-ySpot = {};
-yawReach ={};
-typeSpot = {};
-
 %% Reachability
+xSpot = {};  % x: spot
+ySpot = {};  % y: spot
+yawReach ={};  % yaw: starting point
+typeSpot = {}; % type: spot
 for i = 1:nTask
     % each time we process one task if it's feasible
     % finally all tasks are plotted in the same figure
@@ -86,13 +67,11 @@ for i = 1:nTask
     end
 end
 
-%% TODO: plot value function
-% save a figure; then read it again (make a copy)
+%% Save a figure
 timeStr = string(datetime('now'));
 saveStr = sprintf('fullMap %s.fig', erase(timeStr, ':'));
 fileStr = sprintf('data %s.txt', erase(timeStr, ':'));
 savefig(saveStr);
-% openfig(saveStr);
 
 %% Print info and write info into file
 fid = fopen(fileStr, 'w');
