@@ -3,7 +3,7 @@
 %% Grid
 grid_min = GRID_MIN;
 grid_max = GRID_MAX;    
-N = [25; 25; 25; 10];
+N = [30; 30; 25; 8];
 
 pdDims = 3;               % 3rd dimension is periodic
 g = createGrid(grid_min, grid_max, N, pdDims);
@@ -15,7 +15,9 @@ obstacles = cell(numObs, 1);
 
 %% Parking spot and obstacles
 % set parking spot and init obstacles
-parkingSpot = shapeCylinder(g, [3, 4], [SX; SY; 0; 0], rSpot);
+% parkingSpot = shapeCylinder(g, [3, 4], [SX; SY; 0; 0], rSpot);
+parkingSpot = shapeRectangleByCenter(g, [SX; SY; SZ; 0], [2*rSpot, 2*rSpot, 2*stdTheta, 2*0.4]);
+% parkingSpot = shapeCylinder(g, [4], [SX; SY; SZ; 0], rSpot);
 for i = 1:numObs
     obstacles{i} = arbitraryObstacle(g, allObs{i}, rInflate);
 end
@@ -66,10 +68,10 @@ if PLOT2D
     HJIextraArgs.visualize.plotData.projpt = [meanTheta goodV];
     % plot marker and spot
     t = linspace(0, 2*pi);
-    r = 0.1;
+    r = 0.05;
     x = SX + r*cos(t);
     y = SY + r*sin(t);
-    r = 0.05;
+    r = 0.03;
     x1 = CX + r*cos(t);
     y1 = CY + r*sin(t);
     patch(x, y, 'r')
@@ -88,14 +90,17 @@ else % 3D
 end
 
 % TODO: try changing out 'none' for 'minVOverTime'
-% figure(100);
+%%
+% disp([SX; SY; SZ; 0])
+% disp(meanTheta)
+% disp([2*rSpot, 2*rSpot, 2*stdTheta, 2*0.4])
 [data, tau2, ~] = ...
   HJIPDE_solve(parkingSpot, tau, schemeData, 'minVOverTime', HJIextraArgs);
 
 %% patch: vehicle rectangle
 lLarge = (LENGTH+WHEELBASE)/2;
 lSmall = (LENGTH-WHEELBASE)/2;
-if strcmp(MODE, 'forward')  % forward, parallel
+if startsWith(MODE, 'forward')  % forward, parallel
     SZ1 = SZ - pi/2;
     SZ2 = SZ + pi/2;
     vX = [SX + lLarge * cos(SZ) + WIDTH/2 * cos(SZ1), ...
@@ -109,7 +114,7 @@ if strcmp(MODE, 'forward')  % forward, parallel
         SY - lSmall * sin(SZ) + WIDTH/2 * sin(SZ2)];
 else  % parallel or reverse
     % Because we do forward parking to simulate these cases.
-    revSZ = SZ + pi;  % This is true 'SZ'
+    revSZ = SZ + pi;  % This is true 'SZ'  
     revSZ1 = revSZ - pi/2;
     revSZ2 = revSZ + pi/2;
     vX = [SX + lLarge * cos(revSZ) + WIDTH/2 * cos(revSZ1), ...

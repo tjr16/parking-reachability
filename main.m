@@ -22,23 +22,23 @@ run('obs_tf.m');
 [possible_task, possible_task_idx] = ...
     feasibilityTest(parking_spots, LENGTH, WIDTH);
 
-%% Add another case for parallel parking
+%% Add another case for parking
 nTask = numel(ps);  % #tasks
 for i = 1:nTask
-    if type{i} == "parallel"
-        ps{end+1} = ps{i};
-        type{end+1} = "parallel-anti";
-        marker{end+1} = marker{i};
-        spot_dim{end+1} = spot_dim{i};
-        nTask = nTask + 1;
-        possible_task_idx(end+1) = nTask;
-    end
+%     if type{i} == "parallel"
+    ps{end+1} = ps{i};
+    type{end+1} = strcat(type{i}, "-anti"); %parallel-anti";
+    marker{end+1} = marker{i};
+    spot_dim{end+1} = spot_dim{i};
+    nTask = nTask + 1;
+    possible_task_idx(end+1) = nTask;
 end
 nTask = numel(ps);
 
 %% Reachability
 xSpot = {};  % x: spot
 ySpot = {};  % y: spot
+zSpot = {};  % z: spot
 yawReach ={};  % yaw: starting point
 typeSpot = {}; % type: spot
 for i = 1:nTask
@@ -58,12 +58,15 @@ for i = 1:nTask
         run('parking_reachability');
         xSpot{end+1} = SX;
         ySpot{end+1} = SY;
-        if strcmp(MODE, 'forward')
-            yawReach{end+1} = SZ;
+        if startsWith(MODE, 'forward')
+            yawReach{end+1} = meanTheta;
+            zSpot{end+1} = SZ;
         else
-            yawReach{end+1} = revSZ;  % real 'SZ' for reverse/parallel
+            yawReach{end+1} = meanTheta + pi;  % real 'SZ' for reverse/parallel
+            zSpot{end+1} = SZ + pi;
         end
         typeSpot{end+1} = MODE;
+%         hold on;
     end
 end
 
@@ -76,15 +79,14 @@ savefig(saveStr);
 %% Print info and write info into file
 fid = fopen(fileStr, 'w');
 for i = 1:numel(xSpot)
-    fprintf("%s parking spot located at (%f, %f) \n", typeSpot{i}, xSpot{i}, ySpot{i});
-    fprintf(fid, "%s parking spot located at (%f, %f) \n", typeSpot{i}, xSpot{i}, ySpot{i});
+    % yaw: end point
+    yawSpot = zSpot{i};
+    yawSpot = wrapToPi(yawSpot);
+    fprintf("%s parking spot located at (%f, %f, %f) \n", typeSpot{i}, xSpot{i}, ySpot{i}, yawSpot);
+    fprintf(fid, "%s parking spot located at (%f, %f, %f) \n", typeSpot{i}, xSpot{i}, ySpot{i}, yawSpot);
+    % yaw: start point
     yawR = yawReach{i};
-    while yawR > pi
-        yawR = yawR - 2*pi;
-    end
-    while yawR < -pi
-        yawR = yawR + 2*pi;
-    end
+    yawR = wrapToPi(yawR);
     fprintf("\t corresponding yaw angle: %f (pick your (x,y) by yourself!) \n", yawR); 
     fprintf(fid, "\t corresponding yaw angle: %f (pick your (x,y) by yourself!) \n", yawR); 
 end

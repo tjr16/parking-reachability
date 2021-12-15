@@ -2,7 +2,8 @@
 %% This file contains basic parameters used in the main script.
 
 %% Yaml file paths
-taskPath = 'park_task.yaml';
+taskPath = 'park_task2.yaml';
+% taskPath = 'park_parallel.yaml';
 mapPath = 'obstacles.yaml';
 
 %% Plot mode: 2D or 3D?
@@ -16,7 +17,7 @@ else  % otherwise, plot4d
 end
 
 %% Time vector
-t0 = 0; tMax = 2; dt = 0.1;
+t0 = 0; tMax = 5; dt = 0.1;
 tau = t0:dt:tMax;
 
 %% Obstacles
