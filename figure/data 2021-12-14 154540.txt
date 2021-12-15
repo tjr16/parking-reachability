@@ -1,0 +1,8 @@
+parallel parking spot located at (-3.868511, -10.537767) 
+	 corresponding yaw angle: -2.120593 (pick your (x,y) by yourself!) 
+reverse parking spot located at (0.248545, 7.807707) 
+	 corresponding yaw angle: -0.529154 (pick your (x,y) by yourself!) 
+forward parking spot located at (-3.650894, -5.767866) 
+	 corresponding yaw angle: 0.991915 (pick your (x,y) by yourself!) 
+parallel-anti parking spot located at (-4.037805, -10.814019) 
+	 corresponding yaw angle: 1.021000 (pick your (x,y) by yourself!) 
