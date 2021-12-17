@@ -13,7 +13,9 @@ run('param.m');
 
 %% Read yaml file
 parking_spots = ReadYaml(taskPath);  % class: 'struct'
-map_obst = ReadYaml(mapPath);
+% map_obst = ReadYaml(mapPath);
+
+map_obst = {};
 run('obs_tf.m');  
 % NOTE: return ps, type, marker, spot_dim
 % ps: each element is a parking spot, including several obstacles.

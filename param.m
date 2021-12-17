@@ -2,7 +2,7 @@
 %% This file contains basic parameters used in the main script.
 
 %% Yaml file paths
-taskPath = 'park_task2.yaml';
+taskPath = 'final_task.yaml';
 % taskPath = 'park_parallel.yaml';
 mapPath = 'obstacles.yaml';
 

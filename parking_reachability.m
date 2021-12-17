@@ -9,7 +9,8 @@ pdDims = 3;               % 3rd dimension is periodic
 g = createGrid(grid_min, grid_max, N, pdDims);
 
 %% Collect all obstacles in the map
-allObs = cat(2, currentObs, mapObs);
+% allObs = cat(2, currentObs, mapObs);
+allObs = currentObs;
 numObs = numel(allObs);
 obstacles = cell(numObs, 1);
 
