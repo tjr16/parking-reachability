@@ -5,13 +5,13 @@ PLOT_PARKING_SPOT = true;
 %% plot example parking spot etc.
 if PLOT_PARKING_SPOT
     hold on
-    [~,N] = size(map_obst.obstacles);
-    for i = 1:N
-        obst = map_obst.obstacles{i};
-        obsx = [obst{1:length(obst)}];
-        obsy = [obst{length(obst)+1:2*length(obst)}];
-        patch(obsx,obsy,'black');
-    end
+%     [~,N] = size(map_obst.obstacles);
+%     for i = 1:N
+%         obst = map_obst.obstacles{i};
+%         obsx = [obst{1:length(obst)}];
+%         obsy = [obst{length(obst)+1:2*length(obst)}];
+%         patch(obsx,obsy,'black');
+%     end
 
     fn = fieldnames(parking_spots);
     for j = 1:length(fn)
@@ -53,7 +53,7 @@ for j = 1:length(fn)
 end
 
 %% Get map obstacles
-mapObs = map_obst.obstacles;
-for i = 1:numel(mapObs)
-    mapObs{i} = cell2mat(mapObs{i})';
-end
+% mapObs = map_obst.obstacles;
+% for i = 1:numel(mapObs)
+%     mapObs{i} = cell2mat(mapObs{i})';
+% end
