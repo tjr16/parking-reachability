@@ -9,7 +9,7 @@ else
 end
 rSpot = 0.05;  % radius of the initial region of reference point
 stdTheta = pi/10;
-rInflate = WIDTH;  % How much we inflate obstacles.
+rInflate = WIDTH/2;  % How much we inflate obstacles.
 % We can tune rInflate if not feasible!
 
 % marker pose: (CX, CY, CZ)
