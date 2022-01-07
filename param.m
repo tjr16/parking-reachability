@@ -22,7 +22,7 @@ tau = t0:dt:tMax;
 
 %% Obstacles
 ADD_OBSTACLE = true;
-INFLATE = false;  % only implemented for rectangles
+INFLATE = false;  % only implemented for rectangles, YOU CAN IGNORE THIS
 
 %% Vehicle parameters
 WIDTH = 0.249;
